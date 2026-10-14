@@ -1,0 +1,34 @@
+# Render Blueprint: creates the PostgreSQL database and the web service together.
+databases:
+  - name: collab-db
+    plan: free
+    databaseName: project_collab
+    user: collab
+    ipAllowList: []          # internal connections only
+
+services:
+  - type: web
+    name: project-collab
+    runtime: docker
+    plan: free               # change to "starter" for always-on + persistent disk
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_HOST
+        fromDatabase: { name: collab-db, property: host }
+      - key: DB_PORT
+        fromDatabase: { name: collab-db, property: port }
+      - key: DB_NAME
+        fromDatabase: { name: collab-db, property: database }
+      - key: DB_USER
+        fromDatabase: { name: collab-db, property: user }
+      - key: DB_PASSWORD
+        fromDatabase: { name: collab-db, property: password }
+    # Uploaded files are lost on every restart on the free plan.
+    # On a paid plan, uncomment this and add UPLOAD_DIR=/var/data/uploads above:
+    # disk:
+    #   name: uploads
+    #   mountPath: /var/data
+    #   sizeGB: 1

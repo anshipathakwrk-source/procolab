@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tandem · Project Collaboration Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============ Sign in / Create account ============ -->
+  <section id="auth-view" hidden>
+    <div class="auth-pitch">
+      <div class="brand">Tandem</div>
+      <h1>Every task has an owner and a due date.</h1>
+      <p>Plan projects, assign work, share files and talk it through, all in one place for your team.</p>
+      <div class="mini-board" aria-hidden="true">
+        <div class="mini-col"><span>To do</span><i class="p-high"></i><i class="p-low"></i></div>
+        <div class="mini-col"><span>In progress</span><i class="p-med"></i></div>
+        <div class="mini-col"><span>Done</span><i class="p-low done"></i><i class="p-med done"></i></div>
+      </div>
+    </div>
+    <div class="auth-form-wrap">
+      <form id="auth-form" onsubmit="submitAuth(event)" novalidate>
+        <div class="seg" role="tablist">
+          <button type="button" id="tab-login" class="on" onclick="setAuthMode('login')">Sign in</button>
+          <button type="button" id="tab-register" onclick="setAuthMode('register')">Create account</button>
+        </div>
+        <label id="name-field" hidden>Full name<input name="name" autocomplete="name"></label>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" minlength="6" required></label>
+        <p id="auth-error" class="form-error" role="alert"></p>
+        <button class="btn primary wide" id="auth-submit">Sign in</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ Application ============ -->
+  <div id="app-view" hidden>
+    <aside class="side">
+      <div class="brand">Tandem</div>
+      <button class="side-home" onclick="renderHome()">My tasks</button>
+      <div class="side-head">
+        <span>Projects</span>
+        <button class="icon-btn" onclick="projectForm()" aria-label="New project" title="New project">+</button>
+      </div>
+      <nav id="project-list" class="project-list"></nav>
+      <div class="side-user">
+        <span class="avatar" id="me-avatar"></span>
+        <div><b id="me-name"></b><small id="me-email"></small></div>
+        <button class="link light" onclick="logout()">Sign out</button>
+      </div>
+    </aside>
+    <main id="main"></main>
+  </div>
+
+  <dialog id="modal"></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
